@@ -1,3 +1,6 @@
+![openstack-logo-1-300x150](https://user-images.githubusercontent.com/13846660/34405179-33a09ef4-ebf5-11e7-8530-9d60a26683c8.png)
+<!-- ![cloudshell_logo](https://user-images.githubusercontent.com/13846660/34405299-ec92e066-ebf5-11e7-86b2-0aa943395a14.png) -->
+
 # Openstack_dev
 Openstack intergration with Quali Cloudshell
 
