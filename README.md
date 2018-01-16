@@ -118,6 +118,28 @@ SERVICE_PASSWORD=$ALL_PASSWORD
 HOST_IP=192.168.0.157
 ```
 
+- Turnoff the nova (Optional) <br>
+
+https://wiki.openstack.org/wiki/NeutronDevstack <br>
+ neutron //support complex level network management <br>
+ nova //simple network management <br>
+
+```sh
+[[local|localrc]]
+disable_service n-net
+enable_service q-svc
+enable_service q-agt
+enable_service q-dhcp
+enable_service q-l3
+enable_service q-meta
+
+# Optional, to enable tempest configuration as part of devstack
+enable_service tempest
+
+# For Tempest
+API_RATE_LIMIT=False 
+```
+
 12) run shell script
 ```sh
 ./stack.sh > setup_log_stack.log
@@ -136,6 +158,9 @@ cd devstack
 source [project_name]-openrc.sh [user_id]
 ex) >>source alt-demo-openrc.sh admin
 ```
+
+15) *** ***Don't reboot devstack*** ***
+> After every reboot you need to run ./stack.sh.
 
 # Tip
 
@@ -203,6 +228,12 @@ pwd
 chmod 777 mydir
 mkdir myfolder
 df -h  => disk usages
+
+# remove repository
+sudo add-apt-repository -r ppa:<ppa to remove>
+
+# recursive mkdir : 
+mkdir -p /opt/stack/logs
 ```
 
 5) network command
@@ -220,6 +251,28 @@ find . -name "foo*"
 ```sh
 ls -l | more
 ```
+
+8) Q: Virtualbox shared folder permissions? <br>
+A: Try this (on the guest machine. i.e. the OS running in the Virtual box): <br>
+```sh
+ sudo adduser your-user vboxsf
+```
+Now reboot the OS running in the virtual box.
+
+9) Lightweight Browser Midori <br>
+Open terminal by pressing Ctrl+Alt+T and run the following commands, <br>
+```sh
+sudo apt-add-repository ppa:midori/ppa
+sudo apt-get update
+sudo apt-get install midori
+```
+or
+```sh
+sudo apt-get -f install
+sudo dpkg -i midori-xxx.deb
+```
+or launch midori-xxx.deb on the gui
+
 
 # Sample Topology Configuration in Openstack
 ```sh
