@@ -221,7 +221,7 @@ Change: c5c7d8f37eff14f2943c88cbce3c835b14237507 Merge "Switch to consolidated f
 OS Version: Ubuntu 16.04 xenial
 ```
 
-# this will remove the installation of DevStack and dependancies
+# Remove DevStack and dependancies
 
 ```sh
 ./clean.sh 
@@ -378,30 +378,30 @@ First Register Cloud controller and then Add App which wants to add.
 
 1) Portal >> Inventory >> Add New >> Select Shell >> Openstack
 ```sh
-Controller URL: http://192.168.0.157/identity/v3 
+Controller URL: http://192.168.0.168/identity/v3 
 OpenStack Domain Name: default
 OpenStack Project Name: demo
-OpenStack Management Network ID:(public's subnet ID): 4ebe5af2-923b-47be-9645-3b93b54438d2	
+OpenStack Management Network ID:(Subnet ID which want to spawn(deploy)): 4ebe5af2-923b-47be-9645-3b93b54438d2	
 OpenStack Reserved Networks : skip setting
 VLAN Type: VXLAN
+FLOATING IP SUBNET ID: ?
  => https://ask.openstack.org/en/question/51388/whats-the-difference-between-flat-gre-and-vlan-neutron-network-types/
-Floating IP Subnet ID (Subnet ID which want to spawn(deploy), maybe public or private's subnet id): 76df00fa-96a6-45d9-8f2a-1dcf14378667
 ```
 
-2) Managing Apps (Add Apps), maybe public or private's subnet id
+2) Managing Apps (Add Apps), maybe public or private's subnet id <br>
+  Portal >> Manage >> Apps >> Add >> Openstack Deploy From Glance Image >> Create
 ```sh
  http://help.quali.com/Online%20Help/8.1.0.4291/Rm/Content/CSP/MNG/Mng-Apps.htm#Adding
-
- Portal >> Manage >> Apps >> Add >> Openstack Deploy From Glance Image >> Create
-
+ 
  DEPLOYMENT
   CLOUD PROVIDER: select one from drop-down list
   IMAGE ID: Select one from Openstack dashboard >> Project >> compute >> Images
   INSTANCE FLAVOR: m1.tiny 
-  ADD FLOATING IP: True or False => I choose False. 
-  FLOATING IP SUBNET ID: Subnet ID which is ip pool of public ip
+  ADD FLOATING IP: True or False => I choose False. It can choose on the openstack.
+  FLOATING IP SUBNET ID: ?
 ```
-- The Meaning of Floating IP in the Cloudshell is not only Netwrok::Floating IPs in the Openstack, it means SUBNET in the Openstack.
+- ?? FLOATING IP SUBNET ID: Above two places of this setting, the sandbox works without problem. i skipped. the FLOATING IP can be allocated in the openstack (Network: Floating IPs).
+- OpenStack Management Network ID means SUBNET ID in the Openstack.
 
 # Trouble Shooting
 ```sh
