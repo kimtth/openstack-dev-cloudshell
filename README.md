@@ -105,6 +105,8 @@ HOST_IP=10.0.2.15
 
 - Setting for 2 NIC 
 
+![2nic_setting_diagram](https://user-images.githubusercontent.com/13846660/35082412-082a2e2a-fc5d-11e7-9deb-5b02ea6c1680.png)
+
 ```sh
 [[local|localrc]]
 # NIC information of Ubuntu on the Virtualbox
@@ -180,7 +182,47 @@ ex) >>source alt-demo-openrc.sh admin
 15) *** ***Don't reboot devstack*** ***
 > After every reboot you need to run ./stack.sh.
 
+# complete message
+```sh
+=========================
+DevStack Component Timing
+ (times are in seconds)  
+=========================
+run_process          156
+test_with_retry       13
+apt-get-update        57
+pip_install          937
+osc                  691
+wait_for_service     153
+git_timed            324
+dbsync               145
+apt-get              310
+-------------------------
+Unaccounted time     2105
+=========================
+Total runtime        4891
+
+This is your host IP address: 192.168.0.168
+This is your host IPv6 address: ::1
+Horizon is now available at http://192.168.0.168/dashboard
+Keystone is serving at http://192.168.0.168/identity/
+The default users are: admin and demo
+The password: a
+
+WARNING: 
+Using lib/neutron-legacy is deprecated, and it will be removed in the future
+
+Services are running under systemd unit files.
+For more information see: 
+https://docs.openstack.org/devstack/latest/systemd.html
+
+DevStack Version: queens
+Change: c5c7d8f37eff14f2943c88cbce3c835b14237507 Merge "Switch to consolidated fetch-subunit-output role" 2018-01-17 20:31:33 +0000
+OS Version: Ubuntu 16.04 xenial
+```
+
 # this will remove the installation of DevStack and dependancies
+
 ```sh
 ./clean.sh 
 rm -rf /opt/stack
@@ -338,15 +380,15 @@ First Register Cloud controller and then Add App which wants to add.
 ```sh
 Controller URL: http://192.168.0.157/identity/v3 
 OpenStack Domain Name: default
-OpenStack Project Name: alt_demo
-OpenStack Management Network ID:(admin:public's ID): 4ebe5af2-923b-47be-9645-3b93b54438d2	
+OpenStack Project Name: demo
+OpenStack Management Network ID:(public's subnet ID): 4ebe5af2-923b-47be-9645-3b93b54438d2	
 OpenStack Reserved Networks : skip setting
 VLAN Type: VXLAN
  => https://ask.openstack.org/en/question/51388/whats-the-difference-between-flat-gre-and-vlan-neutron-network-types/
-Floating IP Subnet ID (Floating IP Pools subnet ID, maybe public's subnet ID): 76df00fa-96a6-45d9-8f2a-1dcf14378667
+Floating IP Subnet ID (Subnet ID which want to spawn(deploy), maybe public or private's subnet id): 76df00fa-96a6-45d9-8f2a-1dcf14378667
 ```
 
-2) Managing Apps (Add Apps)
+2) Managing Apps (Add Apps), maybe public or private's subnet id
 ```sh
  http://help.quali.com/Online%20Help/8.1.0.4291/Rm/Content/CSP/MNG/Mng-Apps.htm#Adding
 
@@ -357,10 +399,9 @@ Floating IP Subnet ID (Floating IP Pools subnet ID, maybe public's subnet ID): 7
   IMAGE ID: Select one from Openstack dashboard >> Project >> compute >> Images
   INSTANCE FLAVOR: m1.tiny 
   ADD FLOATING IP: True or False => I choose False. 
-  FLOATING IP SUBNET ID: Subnet ID which want to spawn(release)
-   private1_subnet ID: 476977bb-dec3-4041-954e-189c388c50d0
-   private2_subnet ID: 678169b4-883b-40d9-b8c0-36ec52fbd874
+  FLOATING IP SUBNET ID: Subnet ID which is ip pool of public ip
 ```
+- The Meaning of Floating IP in the Cloudshell is not only Netwrok::Floating IPs in the Openstack, it means SUBNET in the Openstack.
 
 # Trouble Shooting
 ```sh
