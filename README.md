@@ -75,9 +75,10 @@ git clone https://git.openstack.org/openstack-dev/devstack
 
 9) change privilege & check info
 ```sh
-chmod 777 devstack
+sudo chown -R devstack:devstack /path/devstack
+sudo chmod 770 /path/devstack
 ifconfig enp0s8 => checking host ip
-terminal>..inet addr: 192.168.0.157
+ex) terminal>..inet addr: 192.168.0.168
 ```
 
 10) make local.conf
@@ -106,16 +107,29 @@ HOST_IP=10.0.2.15
 
 ```sh
 [[local|localrc]]
-ALL_PASSWORD=a
-FLOATING_RANGE=10.0.2.0/24
+# NIC information of Ubuntu on the Virtualbox
+# devstack@devstack-VirtualBox:~$ ifconfig
+# enp0s3    Link encap:Ethernet  HWaddr 08:00:27:2f:07:ee  
+#           inet addr:192.168.0.168  Bcast:192.168.0.255  Mask:255.255.255.0
+# enp0s8    Link encap:Ethernet  HWaddr 08:00:27:a2:d6:dd  
+#          inet addr:10.0.3.15  Bcast:10.0.3.255  Mask:255.255.255.0
+# lo        Link encap:Local Loopback  
+#          inet addr:127.0.0.1  Mask:255.0.0.0
+
+# Host pc subnet, Bridged Interface
+HOST_IP=192.168.0.168 
+
+# NAT Interface
+FLOATING_RANGE=10.0.3.0/24
+
+#Internal Network range in the VM 
 FIXED_RANGE=192.168.1.0/24
+
+#Subnet mask 24 equals 256
 FIXED_NETWORK_SIZE=256
-FLAT_INTERFACE=enp0s3
-ADMIN_PASSWORD=$ALL_PASSWORD
-DATABASE_PASSWORD=$ALL_PASSWORD
-RABBIT_PASSWORD=$ALL_PASSWORD
-SERVICE_PASSWORD=$ALL_PASSWORD
-HOST_IP=192.168.0.157
+
+# NAT Interface
+FLAT_INTERFACE=enp0s8 
 ```
 
 - Turnoff the nova (Optional) <br>
@@ -147,7 +161,11 @@ API_RATE_LIMIT=False
 
 13) login dashboard
 ```sh
-http://192.168.0.157/dashboard
+http://192.168.0.168/dashboard
+```
+or
+```sh
+http://127.0.0.1/dashboard
 ```
 
 14) setting for CLI command (openstack compute (nova) “error”)
@@ -161,6 +179,13 @@ ex) >>source alt-demo-openrc.sh admin
 
 15) *** ***Don't reboot devstack*** ***
 > After every reboot you need to run ./stack.sh.
+
+# this will remove the installation of DevStack and dependancies
+```sh
+./clean.sh 
+rm -rf /opt/stack
+rm -rf /usr/local/bin 
+```
 
 # Tip
 
