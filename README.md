@@ -285,7 +285,7 @@ l
 ll
 ls -l
 rm -r mydir
-rm -f sample.txt //確認なしで削除する場合。
+rm -f sample.txt //delete file without asking. 確認なしで削除する場合。
 mv /home/user/oldname /home/user/newname
 cp -rp /home/user/oldname /home/user/newname
   => r: recursive / p: keep properties
