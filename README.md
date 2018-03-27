@@ -381,11 +381,10 @@ First Register Cloud controller and then Add App which wants to add.
 Controller URL: http://192.168.0.168/identity/v3 
 OpenStack Domain Name: default
 OpenStack Project Name: demo
-OpenStack Management Network ID:(Subnet ID which want to spawn(deploy)): 4ebe5af2-923b-47be-9645-3b93b54438d2	
+OpenStack Management Network ID: fdda07aa-6ff4-4d3a-92bf-b7190336362e (shared, not external, id not subnet id)
 OpenStack Reserved Networks : skip setting
 VLAN Type: VXLAN
-FLOATING IP SUBNET ID: ?
- => https://ask.openstack.org/en/question/51388/whats-the-difference-between-flat-gre-and-vlan-neutron-network-types/
+Floating IP Subnet ID: 26f3523c-92c4-4fc4-ac3e-c53c3e090240 (subnet id using in openstack dashboard >> network >> floating ips)
 ```
 
 2) Managing Apps (Add Apps), maybe public or private's subnet id <br>
@@ -398,10 +397,22 @@ FLOATING IP SUBNET ID: ?
   IMAGE ID: Select one from Openstack dashboard >> Project >> compute >> Images
   INSTANCE FLAVOR: m1.tiny 
   ADD FLOATING IP: True or False => I choose False. It can choose on the openstack.
-  FLOATING IP SUBNET ID: ?
+  FLOATING IP SUBNET ID: 26f3523c-92c4-4fc4-ac3e-c53c3e090240
 ```
-- ?? FLOATING IP SUBNET ID: Above two places of this setting, the sandbox works without problem. i skipped. the FLOATING IP can be allocated in the openstack (Network: Floating IPs).
-- OpenStack Management Network ID means SUBNET ID in the Openstack.
+- OpenStack Configuration Requirements
+ http://help.quali.com/Online%20Help/8.0.0.7229_CE/Content/Admn/OpenStack-Cnfg-Rqrs.htm
+```sh
+- Project Management Network	
+A network needs to be created to store instances deployed by CloudShell Apps:
+
+1) Assign a subnet to the network.
+2) Make sure the network is not external. Every instance will have a network port on the management network.
+3) Set the network's shared flag to True. The network will be shared by instances.
+4) Make sure QualiX Server has a floating IP and is part of this network so that it can be accessed from external networks.
+ ```
+- CloudShell >> Cloud Provider >> Floating IP Subnet ID & OpenStack Management Network ID
+
+![cloudshell_provider_mapping](https://user-images.githubusercontent.com/13846660/37954473-d957a622-31e0-11e8-81da-682570d9bae9.png)
 
 # Trouble Shooting
 ```sh
